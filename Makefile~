@@ -1,0 +1,6 @@
+
+myecho: myecho.c
+	gcc -o myecho myecho.c
+	
+.PHONY: clean
+	rm -f myecho

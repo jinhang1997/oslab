@@ -1,8 +1,18 @@
+OBJS := myecho mycat mycp
+CC := gcc
 
-myecho: myecho.c
-	gcc -o myecho myecho.c
+all: clean $(OBJS)
+
+myecho: myecho.c 
+	$(CC) -o myecho myecho.c
 	
-.PHONY: clean
+mycat: mycat.c
+	$(CC) -o mycat mycat.c
+	
+mycp: mycp.c
+	$(CC) -o mycat mycp.c
+	
+.PHONY: all clean
 
 clean:
-	rm -f myecho
+	rm -f $(OBJS)

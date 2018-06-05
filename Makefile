@@ -37,7 +37,7 @@ time:
 
 push:
 	git add .
-	git commit --author='auto-commit <abc@abc.com>' -m 'auto commit at $(shell date +"%Y-%m-%d %H:%M:%S")' --no-verify --allow-empty
+	git commit --author='oslab-tracer <>' -m 'auto commit at $(shell date +"%Y-%m-%d %H:%M:%S")' --no-verify --allow-empty
 	git push origin master
 
 clean:

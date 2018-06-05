@@ -25,15 +25,15 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@$(CC) $(CFLAGS) -c -o $@ $<
 	
 # Link each *.o file as executable files
-$(BUILD_DIR)/%: $(OBJS)
+$(BUILD_DIR)/%: $(OBJ_DIR)/%.o
 	@echo + LD $@
 	@mkdir -p $(BUILD_DIR)
 	@$(LD) $(CFLAGS) -o $@ $<
 	
-.PHONY: all time push clean
+.PHONY: all lines push clean
 
-time:
-	@echo $(shell date +"%Y-%m-%d %H:%M:%S")
+lines:
+	@echo Total Code Lines: $(shell find ./ -name '*.[c|h]' | xargs cat | wc -l)
 
 push:
 	git add .

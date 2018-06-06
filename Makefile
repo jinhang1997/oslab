@@ -43,10 +43,6 @@ $(BUILD_DIR)/multiproc/%main: $(OBJ_DIR)/multiproc/*.o
 	
 .PHONY: all fileio multiproc lines push clean
 
-fileio: $(FILEIO)
-
-multiproc: $(MULTIPROC)
-
 lines:
 	@echo Total Code Lines: $(shell find ./ -name '*.[c|h]' | xargs cat | wc -l)
 

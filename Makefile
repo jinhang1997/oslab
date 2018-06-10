@@ -14,7 +14,7 @@ CFLAGS := -Wall -I $(INC_DIR)
 SRCS = $(shell find $(SRC_DIR)/ -name "*.c")
 OBJS := $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 OBJS_ALL := $(OBJ_DIR)/*.o
-OBJS_PROC := $(OBJ_DIR)/proc/*.o
+OBJS_PROC := $(OBJ_DIR)/proc/comp/*.o
 #BUILD := $(OBJS:$(OBJ_DIR)/%.o=$(BUILD_DIR)/%)
 COMMON := $(OBJ_DIR)/common.o
 FILEIO := $(OBJS:$(OBJ_DIR)/file/%.o=$(BUILD_DIR)/file/%)
@@ -39,10 +39,10 @@ $(BUILD_DIR)/file/%: $(OBJ_DIR)/file/%.o
 
 # Link needed *.o files in multiproc as target executables
 # $(OBJ_DIR)/proc/*.o
-$(BUILD_DIR)/proc/%main: $(OBJS_PROC)
+$(BUILD_DIR)/proc/%main: $(OBJS_PROC) $(OBJ_DIR)/proc/%main.o
 	@echo + LD $@
 	@mkdir -p $(dir $@)
-	@$(LD) $(CFLAGS) -o $@ $^ $(COMMON)
+	$(LD) $(CFLAGS) -o $@ $^ $(COMMON) 
 	
 .PHONY: all lines push clean
 

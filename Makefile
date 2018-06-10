@@ -16,7 +16,7 @@ OBJS := $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 OBJS_ALL := $(OBJ_DIR)/*.o
 OBJS_PROC := $(OBJ_DIR)/proc/*.o
 #BUILD := $(OBJS:$(OBJ_DIR)/%.o=$(BUILD_DIR)/%)
-COMMON := $(SRC_DIR)/common.c
+COMMON := $(OBJ_DIR)/common.o
 FILEIO := $(OBJS:$(OBJ_DIR)/file/%.o=$(BUILD_DIR)/file/%)
 MULTIPROC := $(OBJS:$(OBJ_DIR)/proc/%main.o=$(BUILD_DIR)/proc/%main)
 
@@ -42,7 +42,7 @@ $(BUILD_DIR)/file/%: $(OBJ_DIR)/file/%.o
 $(BUILD_DIR)/proc/%main: $(OBJS_PROC)
 	@echo + LD $@
 	@mkdir -p $(dir $@)
-	@$(LD) $(CFLAGS) -o $@ $^ $(COMMON)
+	$(LD) $(CFLAGS) -o $@ $^ $(COMMON)
 	
 .PHONY: all lines push clean
 

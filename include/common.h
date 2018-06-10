@@ -1,3 +1,6 @@
+#ifndef COMMON_H
+#define COMMON_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
@@ -5,9 +8,6 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-void panic(char *word)
-{
-  printf("\033[31mError:\033[0m %s\n", word);
-  exit(1);
-}
+void panic(char *word);
 
+#endif

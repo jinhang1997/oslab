@@ -14,14 +14,16 @@ CFLAGS := -Wall -I $(INC_DIR)
 SRCS = $(shell find $(SRC_DIR)/ -name "*.c")
 OBJS := $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 OBJS_ALL := $(OBJ_DIR)/*.o
+OBJS_PROC := $(OBJ_DIR)/proc/*.o
 #BUILD := $(OBJS:$(OBJ_DIR)/%.o=$(BUILD_DIR)/%)
+COMMON := $(SRC_DIR)/common.c
 FILEIO := $(OBJS:$(OBJ_DIR)/file/%.o=$(BUILD_DIR)/file/%)
 MULTIPROC := $(OBJS:$(OBJ_DIR)/proc/%main.o=$(BUILD_DIR)/proc/%main)
 
 # Don't remove *.o files automatically
 .SECONDARY: $(OBJS_ALL)
 
-all: $(FILEIO) $(MULTIPROC)
+all: $(COMMON) $(FILEIO) $(MULTIPROC)
 
 # Compile each *.c file as *.o files
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c 
@@ -33,13 +35,14 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 $(BUILD_DIR)/file/%: $(OBJ_DIR)/file/%.o
 	@echo + LD $@
 	@mkdir -p $(dir $@)
-	@$(LD) $(CFLAGS) -o $@ $<
+	@$(LD) $(CFLAGS) -o $@ $< $(COMMON)
 
 # Link needed *.o files in multiproc as target executables
-$(BUILD_DIR)/proc/%main: $(OBJ_DIR)/proc/*.o
+# $(OBJ_DIR)/proc/*.o
+$(BUILD_DIR)/proc/%main: $(OBJS_PROC)
 	@echo + LD $@
 	@mkdir -p $(dir $@)
-	@$(LD) $(CFLAGS) -o $@ $<
+	@$(LD) $(CFLAGS) -o $@ $^ $(COMMON)
 	
 .PHONY: all lines push clean
 

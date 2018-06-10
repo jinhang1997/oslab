@@ -15,8 +15,8 @@ SRCS = $(shell find $(SRC_DIR)/ -name "*.c")
 OBJS := $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 OBJS_ALL := $(OBJ_DIR)/*.o
 #BUILD := $(OBJS:$(OBJ_DIR)/%.o=$(BUILD_DIR)/%)
-FILEIO := $(OBJS:$(OBJ_DIR)/fileio/%.o=$(BUILD_DIR)/fileio/%)
-MULTIPROC := $(OBJS:$(OBJ_DIR)/multiproc/%main.o=$(BUILD_DIR)/multiproc/%main)
+FILEIO := $(OBJS:$(OBJ_DIR)/file/%.o=$(BUILD_DIR)/file/%)
+MULTIPROC := $(OBJS:$(OBJ_DIR)/proc/%main.o=$(BUILD_DIR)/proc/%main)
 
 # Don't remove *.o files automatically
 .SECONDARY: $(OBJS_ALL)
@@ -30,18 +30,18 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@$(CC) $(CFLAGS) -c -o $@ $<
 	
 # Link each *.o file in fileio as executable files
-$(BUILD_DIR)/fileio/%: $(OBJ_DIR)/fileio/%.o
+$(BUILD_DIR)/file/%: $(OBJ_DIR)/file/%.o
 	@echo + LD $@
 	@mkdir -p $(dir $@)
 	@$(LD) $(CFLAGS) -o $@ $<
 
 # Link needed *.o files in multiproc as target executables
-$(BUILD_DIR)/multiproc/%main: $(OBJ_DIR)/multiproc/*.o
+$(BUILD_DIR)/proc/%main: $(OBJ_DIR)/proc/*.o
 	@echo + LD $@
 	@mkdir -p $(dir $@)
 	@$(LD) $(CFLAGS) -o $@ $<
 	
-.PHONY: all fileio multiproc lines push clean
+.PHONY: all lines push clean
 
 lines:
 	@echo Total Code Lines: $(shell find ./ -name '*.[c|h]' | xargs cat | wc -l)

@@ -42,7 +42,7 @@ $(BUILD_DIR)/file/%: $(OBJ_DIR)/file/%.o
 $(BUILD_DIR)/proc/%main: $(OBJS_PROC)
 	@echo + LD $@
 	@mkdir -p $(dir $@)
-	$(LD) $(CFLAGS) -o $@ $^ $(COMMON)
+	@$(LD) $(CFLAGS) -o $@ $^ $(COMMON)
 	
 .PHONY: all lines push clean
 

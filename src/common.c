@@ -6,3 +6,8 @@ void panic(char *word)
   exit(1);
 }
 
+void warning(char *word)
+{
+  printf("\033[33mWarning:\033[0m %s\n", word);
+}
+

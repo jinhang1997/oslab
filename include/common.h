@@ -9,5 +9,6 @@
 #include <unistd.h>
 
 void panic(char *word);
+void warning(char *word);
 
 #endif

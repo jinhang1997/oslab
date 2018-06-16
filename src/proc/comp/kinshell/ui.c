@@ -2,66 +2,30 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-bool is_exit = false;
+char buf[512], cwd[512];
 
-char buf[512];
+cmd_t commands[4];
 
-char *line_read = NULL;
-
-char *rl_read(char *prompt)
-{
-  if (line_read)
-  {
-    free(line_read);
-    line_read = NULL;
-  }
-  
-  line_read = readline(prompt);
-  
-  if (line_read && *line_read)
-  {
-    add_history(line_read);
-  }
-  
-  return line_read;
-}
+int num_of_commands = 0;
 
 int ui_mainloop()
 {
-  char *args = NULL;
-  
-  while (!is_exit)
+  while (true)
   {
-    char *str = rl_read("kinshell:$ ");
-    // record the total length of original input
-    int len = strlen(str);
-#ifdef DEBUG
-    //printf("Input: [%s]\n", str);
-#endif 
-    char *cmd = strtok(str, " ");
-    int cmdlen = strlen(cmd);
+    memset(commands, 0, sizeof(commands));
+    getcwd(cwd, 512);
+    sprintf(buf, "kinshell:%s$ ", cwd);
+    num_of_commands = read_command(commands, buf);
+    fflush(stdin);
     
-    // no argument is given
-    if (len == cmdlen)
+    // match with each command
+    if (builtin_command(commands[0].command, commands[0].argument))
     {
-      args = "";
+      continue;
     }
     else
     {
-      args = cmd + cmdlen + 1;
-    }
-      
-    // match cmd with each command
-    if (!strcmp(cmd, "exit"))
-    {
-      break;
-    }
-    else
-    {
-      sprintf(buf, "%s %s", cmd, args);
-#ifdef DEBUG
-      //printf("Command: [%s]\n", buf);
-#endif 
+      sprintf(buf, "%s %s", commands[0].command, commands[0].argument);
       mysys(buf);
     }
   }

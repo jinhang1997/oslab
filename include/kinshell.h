@@ -12,14 +12,29 @@ typedef unsigned char bool;
 #include <sys/types.h>
 #include <pwd.h>
 
+typedef union {
+  struct {
+    int dup_stdin :1;
+    int dup_stdout :2;
+  };
+  int val;
+} cmd_info;
+
+#define INFO_IN_RED 1
+#define INFO_OUT_RED 2
+#define INFO_OUT_RED_APPEND 4
+
 typedef struct {
   char command[32];
   char argument[32];
-  bool dup_stdin;
+  //bool dup_stdin;
   char in_file[32];
-  bool dup_stdout;
+  //bool dup_stdout;
   char out_file[32];
+  cmd_info flag;
 } cmd_t;
+
+
 
 int ui_mainloop(void);
 

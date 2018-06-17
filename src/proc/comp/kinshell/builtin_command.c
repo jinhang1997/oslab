@@ -23,8 +23,12 @@ static int builtin_pwd(char *args)
 
 static int builtin_cd(char *args)
 {
+  if (!args || strlen(args) == 0 || !strcmp(args, "~"))
+  {
+    args = pw->pw_dir;
+  }
 #ifdef DEBUG
-  printf("cd: trying to change dir to [%s].\n", args);
+  log("cd: trying to change dir to [%s].", args);
 #endif
   if (chdir(args))
   {
@@ -33,7 +37,7 @@ static int builtin_cd(char *args)
 #ifdef DEBUG
   else
   {
-    printf("cd: operation succeded.\n");
+    log("cd: operation succeded.");
   }
 #endif
 
@@ -59,6 +63,9 @@ int builtin_command(char *command, char *argument)
   {
     if (!strcmp(builtin_list[i].name, command))
     {
+#ifdef DEBUG
+      log("built-in command [%s](%s) found.", command, argument);
+#endif
       return builtin_list[i].handler(argument);
     }
   }

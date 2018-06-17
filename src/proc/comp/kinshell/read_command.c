@@ -22,7 +22,7 @@ static char *rl_read(char *prompt)
   }
   
 #ifdef DEBUG
-  printf("Line read: [%s]\n", line_read);
+  log("Line read: [%s]", line_read);
 #endif 
   
   if (line_read && *line_read)
@@ -60,24 +60,46 @@ int read_command(cmd_t *commands, char *prompt)
   
   char *cmd = strtok(str, " ");
   char *arg;
-  //int cmdlen = strlen(cmd);
+  i = 0;
   strcpy(commands[0].command, cmd);
-  strcat(commands[0].argument, "");
-  arg = strtok(NULL, " ");
-  while (arg)
+  while (true)
   {
-    strcat(commands[0].argument, arg);
     arg = strtok(NULL, " ");
     if (!arg)
     {
       break;
     }
-    strcat(commands[0].argument, " ");
+    else if (!strcmp(arg, "<"))
+    {
+      commands[i].dup_stdin = true;
+      arg = strtok(NULL, " ");
+      strcpy(commands[0].in_file, arg);
+    }
+    else if (!strcmp(arg, ">"))
+    {
+      commands[i].dup_stdout = true;
+      arg = strtok(NULL, " ");
+      strcpy(commands[0].out_file, arg);
+    }
+    else
+    {
+      strcat(commands[i].argument, arg);
+      strcat(commands[i].argument, " ");
+    }
+  }
+  
+  // erase the last space in each argument
+  for (i = 0; i < count_command; i++)
+  {
+    len = strlen(commands[i].argument);
+    if (len > 0 && commands[i].argument[len - 1] == ' ')
+    {
+      commands[i].argument[len - 1] = '\0';
+    }
   }
   
 #ifdef DEBUG
-  printf("Arguments: [%s]\n", commands[0].argument);
-  printf("Command: [%s] [%s]\n", commands[0].command, commands[0].argument);
+  log("Command & Arguments: [%s] [%s]", commands[0].command, commands[0].argument);
 #endif 
   
   return count_command;

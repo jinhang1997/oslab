@@ -14,10 +14,10 @@ typedef unsigned char bool;
 
 typedef union {
   struct {
-    int dup_stdin :1;
-    int dup_stdout :2;
+    unsigned int dup_stdin :1;
+    unsigned int dup_stdout :2;
   };
-  int val;
+  unsigned int val;
 } cmd_info;
 
 #define INFO_IN_RED 1

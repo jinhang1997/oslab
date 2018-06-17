@@ -69,5 +69,8 @@ int builtin_command(char *command, char *argument)
       return builtin_list[i].handler(argument);
     }
   }
+#ifdef DEBUG
+      log("command [%s] was not found in built-in commands.", command);
+#endif
   return 0;
 }

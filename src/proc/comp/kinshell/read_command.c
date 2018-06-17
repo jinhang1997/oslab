@@ -71,19 +71,19 @@ int read_command(cmd_t *commands, char *prompt)
     }
     else if (!strcmp(arg, "<") || !strcmp(arg, "<<"))
     {
-      commands[i].flag.dup_stdin = 1;
+      commands[i].flag.dup_stdin = 0x1;
       arg = strtok(NULL, " ");
       strcpy(commands[0].in_file, arg);
     }
     else if (!strcmp(arg, ">"))
     {
-      commands[i].flag.dup_stdout = 1;
+      commands[i].flag.dup_stdout = 0x1;
       arg = strtok(NULL, " ");
       strcpy(commands[0].out_file, arg);
     }
     else if (!strcmp(arg, ">>"))
     {
-      commands[i].flag.dup_stdout = 2;
+      commands[i].flag.dup_stdout = 0x3;
       arg = strtok(NULL, " ");
       strcpy(commands[0].out_file, arg);
     }

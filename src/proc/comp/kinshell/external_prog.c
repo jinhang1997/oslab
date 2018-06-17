@@ -50,22 +50,22 @@ int external_prog(cmd_t *cmd)
     // output redirection enabled
     if (cmd->flag.dup_stdout & 0x1)
     {
-      if (cmd->flag.dup_stdout == 1)  // create new file
+      if (cmd->flag.dup_stdout == 0x1)  // create new file
       {
         out_fd = open(cmd->out_file, O_CREAT | O_WRONLY | O_TRUNC, 0666);
       }
-      else if (cmd->flag.dup_stdout == 3) // append to the file if existing
+      else if (cmd->flag.dup_stdout == 0x3) // append to the file if existing
       {
         out_fd = open(cmd->out_file, O_CREAT | O_WRONLY | O_APPEND, 0666);
       }
       else
       {
-        sprintf(buf, "invaild output redirection flag [%d].", cmd->flag.dup_stdout);
+        sprintf(buf, "invaild output redirection flag [%u].", cmd->flag.dup_stdout);
         warning(buf); 
         exit(1);
       }
 #ifdef DEBUG
-      log("output redirection, in_fd: %d, in_file: %s", out_fd, cmd->out_file);
+      log("output redirection, out_fd: %d, out_file: %s (redirection mode: %u)", out_fd, cmd->out_file, cmd->flag.dup_stdout);
 #endif
       if (in_fd == -1)
       {

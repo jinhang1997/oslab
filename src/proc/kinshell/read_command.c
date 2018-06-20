@@ -87,6 +87,17 @@ int read_command(cmd_t *commands, char *prompt)
       arg = strtok(NULL, " ");
       strcpy(commands[0].out_file, arg);
     }
+    else if (!strcmp(arg, "|"))
+    {
+      if (i == 15)
+      {
+        warning("Reach the limitation of numbers of commands, the following are ignored.");
+        break;
+      }
+      commands[i].flag.piped = INFO_PIPED_OUT;
+      commands[i+1].flag.piped = INFO_PIPED_IN;
+      count_command++;
+    }
     else
     {
       strcat(commands[i].argument, arg);

@@ -4,7 +4,7 @@
 
 char buf[512], cwd[128];
 
-cmd_t commands[4];
+cmd_t commands[16];
 
 int num_of_commands = 0;
 

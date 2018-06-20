@@ -41,14 +41,12 @@ int main(int argc, char *argv[])
   }
   if ((fdi = open(argv[1], O_RDONLY)) < 0)
   {
-    sprintf(buf, "cat: cannot open %s", argv[1]);
-    panic(buf);
+    panic("cat: cannot open %s", argv[1]);
   }
   mode = get_stat(fdi);
   if ((fdo = creat(argv[2], mode)) < 0)
   {
-    sprintf(buf, "cat: cannot create %s for writing", argv[2]);
-    panic(buf);
+    panic("cat: cannot create %s for writing", argv[2]);
   }
   cp(fdi, fdo);
   

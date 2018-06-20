@@ -40,8 +40,7 @@ int external_prog(cmd_t *cmd)
 #endif
       if (in_fd == -1)
       {
-        sprintf(buf, "failed to open file [%s] for reading.", cmd->in_file);
-        warning(buf);
+        warning("failed to open file [%s] for reading.", cmd->in_file);
         exit(1);
       }
       dup2(in_fd, 0);
@@ -60,8 +59,7 @@ int external_prog(cmd_t *cmd)
       }
       else
       {
-        sprintf(buf, "invaild output redirection flag [%u].", cmd->flag.dup_stdout);
-        warning(buf); 
+        warning("invaild output redirection flag [%u].", cmd->flag.dup_stdout); 
         exit(1);
       }
 #ifdef DEBUG
@@ -69,8 +67,7 @@ int external_prog(cmd_t *cmd)
 #endif
       if (in_fd == -1)
       {
-        sprintf(buf, "failed to open file [%s] for reading.", cmd->in_file);
-        warning(buf);
+        warning("failed to open file [%s] for reading.", cmd->in_file);
         exit(1);
       }
       dup2(out_fd, 1);

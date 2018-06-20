@@ -30,8 +30,7 @@ int main(int argc, char *argv[])
   {
     if ((fd = open(argv[i], O_RDONLY)) < 0)
     {
-      sprintf(buf, "cat: cannot open %s", argv[i]);
-      panic(buf);
+      panic("cat: cannot open %s", argv[i]);
     }
     cat(fd);
     close(fd);

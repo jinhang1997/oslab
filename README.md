@@ -39,6 +39,8 @@ command1 [arguments] [< inputfile] [> outputfile] [| command2 ...]
 
 ### external programs
 * use `mysys` to execute external programs.
+* added support for input redirection with `<` or `<<`.
+* added support for output redirection with `>`(forced new file) or `>>`(append).
 
 
 

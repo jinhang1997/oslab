@@ -7,7 +7,9 @@
 
 void reset_logfile()
 {
-  int fd = open("log.txt", O_CREAT | O_WRONLY | O_TRUNC, 0666);
+  int fd = open("log1.txt", O_CREAT | O_WRONLY | O_TRUNC, 0666);
+  close(fd);
+  fd = open("log2.txt", O_CREAT | O_WRONLY | O_TRUNC, 0666);
   close(fd);
 }
 

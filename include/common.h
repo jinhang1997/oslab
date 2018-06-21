@@ -10,10 +10,15 @@
 #include <unistd.h>
 #include <pwd.h>
 
-#ifdef DEBUG
+#define panic(format, ...) \
+  do { \
+    fprintf(stdout, "\033[1;33m[%s,%d,%s] " format "\033[0m\n", \
+      __FILE__, __LINE__, __func__, ## __VA_ARGS__); \
+  } while (0); \
+  fflush(stdout); \
+  exit(0);
 
-//extern int log_fd;
-//extern FILE *log_file;
+#ifdef DEBUG
 
 #define log2file(log_file, format, ...) \
   do { \
@@ -34,14 +39,6 @@
       __FILE__, __LINE__, __func__, ## __VA_ARGS__); \
   } while (0); \
   fflush(stdout);
-  
-#define panic(format, ...) \
-  do { \
-    fprintf(stdout, "\033[1;33m[%s,%d,%s] " format "\033[0m\n", \
-      __FILE__, __LINE__, __func__, ## __VA_ARGS__); \
-  } while (0); \
-  fflush(stdout); \
-  exit(0);
 
 #endif
 

@@ -1,6 +1,6 @@
 *~
 build/*
-log.txt
+*.txt
 
 # Prerequisites
 *.d

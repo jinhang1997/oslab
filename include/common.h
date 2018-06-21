@@ -8,6 +8,18 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <pwd.h>
+
+#ifdef DEBUG
+
+//extern int log_fd;
+//extern FILE *log_file;
+
+#define log2file(log_file, format, ...) \
+  do { \
+    fprintf(log_file, "[%s,%d,%s] " format "\n", \
+      __FILE__, __LINE__, __func__, ## __VA_ARGS__); \
+  } while (0);
 
 #define log(format, ...) \
   do { \
@@ -30,5 +42,7 @@
   } while (0); \
   fflush(stdout); \
   exit(0);
+
+#endif
 
 #endif

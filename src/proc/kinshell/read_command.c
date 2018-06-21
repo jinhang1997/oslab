@@ -61,7 +61,7 @@ int read_command(cmd_t *commands, char *prompt)
   char *cmd = strtok(str, " ");
   char *arg;
   i = 0;
-  strcpy(commands[0].command, cmd);
+  strcpy(commands[i].command, cmd);
   while (true)
   {
     arg = strtok(NULL, " ");
@@ -95,8 +95,10 @@ int read_command(cmd_t *commands, char *prompt)
         break;
       }
       commands[i].flag.piped = INFO_PIPED_OUT;
-      commands[i+1].flag.piped = INFO_PIPED_IN;
-      count_command++;
+      i++;
+      cmd = strtok(NULL, " ");
+      strcpy(commands[i].command, cmd);
+      commands[i].flag.piped = INFO_PIPED_IN;
     }
     else
     {
@@ -105,6 +107,7 @@ int read_command(cmd_t *commands, char *prompt)
     }
   }
   
+  count_command = i + 1; 
   // erase the last space in each argument
   for (i = 0; i < count_command; i++)
   {
@@ -116,7 +119,7 @@ int read_command(cmd_t *commands, char *prompt)
   }
   
 #ifdef DEBUG
-  log("Command & Arguments: [%s] [%s]", commands[0].command, commands[0].argument);
+  //log("Command & Arguments: [%s] [%s]", commands[0].command, commands[0].argument);
 #endif 
   
   return count_command;

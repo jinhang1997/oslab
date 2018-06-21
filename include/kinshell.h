@@ -7,14 +7,13 @@ typedef unsigned char bool;
 #define true 1
 #define false 0
 
-#include "proc.h"
-#include <sys/types.h>
-#include <pwd.h>
+#include "common.h"
 
 typedef union {
   struct {
     unsigned int dup_stdin :1;
     unsigned int dup_stdout :2;
+    unsigned int :1;
     unsigned int piped: 2;
   };
   unsigned int val;
@@ -36,13 +35,23 @@ typedef struct {
   cmd_info flag;
 } cmd_t;
 
+typedef struct {
+  char buf[4096];
+  int size;
+} pipebuf_t;
+
+pid_t waitpid(pid_t pid, int *status, int options);
+
 int ui_mainloop(void);
 
 int read_command(cmd_t *commands, char *prompt);
 
 int builtin_command(char *command, char *argument);
-int external_prog(cmd_t *cmd);
+
+int external_prog(int total, int depth);
 
 extern struct passwd *pw;
+
+extern cmd_t commands[16];
 
 #endif

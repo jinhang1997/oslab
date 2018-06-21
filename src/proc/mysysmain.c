@@ -1,4 +1,4 @@
-#include "proc.h"
+#include "common.h"
 
 pid_t wait(int *status);
 

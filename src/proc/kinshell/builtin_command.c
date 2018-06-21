@@ -70,7 +70,7 @@ int builtin_command(char *command, char *argument)
     }
   }
 #ifdef DEBUG
-      log("command [%s] was not found in built-in commands.", command);
+  //log("command [%s] was not found in built-in commands.", command);
 #endif
   return 0;
 }

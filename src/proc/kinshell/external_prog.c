@@ -103,7 +103,7 @@ int external_prog(int total, int depth)
     log2file(log_parent, "parent process is setting pipe of stdin");
 #endif
     waitpid(pid, &status, 0);
-    if (depth != 0)
+    if (depth != total - 1)
     {
       dup2(fd[0], fileno(stdin));
       close(fd[0]);

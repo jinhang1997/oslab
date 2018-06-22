@@ -54,4 +54,11 @@ command1 [arguments] [< inputfile] [> outputfile] [| command2 ...]
 * include/common.h: references to some essential headers in libraries and some convenient macroes for debugging.
 * include/kinshell.h: data structure definations and declarations of global variables and functions. **Note that `DEBUG` macro is defined here, you may comment it if not needed.**
 
+# Problems of Multiple Threads
+
+## pi1.c
+Use 2 threads to calculate PI according to Leibniz Series.
+
+## pi2.c
+Use a specified number given by user of threads to calculate PI according to Leibniz Series.
 

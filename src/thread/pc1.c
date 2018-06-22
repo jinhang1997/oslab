@@ -82,7 +82,7 @@ void *produce(void *targ)
     // put an item into the buffer
     item = 'a' + i;
     buf1_put_item(item);
-    printf("/// \033[1;31mproducer put an item: [%c]\033[0m\n", item);
+    printf("/// \033[;31mproducer put an item: [%c]\033[0m\n", item);
     // wake up the producer who is waiting for data
     // in the buffer and unlock the mutex
     pthread_cond_signal(&wait_full_buf1);
@@ -109,7 +109,7 @@ void *process(void *targ)
     }
     // take out an item from the buffer
     item = buf1_get_item(); 
-    printf("*** \033[1;32mprocessor got an item: [%c]\033[0m\n", item);
+    printf("*** \033[;32mprocessor got an item: [%c]\033[0m\n", item);
     // wake up the producer who is waiting for an empty
     // space in the buffer and unlock the mutex
     pthread_cond_signal(&wait_empty_buf1);
@@ -128,7 +128,7 @@ void *process(void *targ)
     }
     // put an item into the buffer
     buf2_put_item(item);
-    printf("--- \033[1;33mprocessor put an item: [%c]\033[0m\n", item);
+    printf("--- \033[;33mprocessor put an item: [%c]\033[0m\n", item);
     // wake up the producer who is waiting for data
     // in the buffer and unlock the mutex
     pthread_cond_signal(&wait_full_buf2);
@@ -155,7 +155,7 @@ void *consum(void *targ)
     }
     // take out an item from the buffer
     item = buf2_get_item();
-    printf("+++ \033[1;34mconsumer got an item: [%c]\033[0m\n", item);
+    printf("\033[1;34m+++ consumer got an item: [%c]\033[0m\n", item);
     // wake up the producer who is waiting for an empty
     // space in the buffer and unlock the mutex
     pthread_cond_signal(&wait_empty_buf2);

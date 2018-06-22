@@ -57,11 +57,29 @@ command1 [arguments] [< inputfile] [> outputfile] [| command2 ...]
 # Problems of Multiple Threads
 
 ## pi1.c
-Use 2 threads to calculate PI according to Leibniz Series.
+use 2 threads to calculate PI according to Leibniz Series.
 
 ## pi2.c
-Use a specified number given by user of threads to calculate PI according to Leibniz Series.
+use a specified number given by user of threads to calculate PI according to Leibniz Series.
 
 ## sort.c
-Use 2 threads to sort an array of numbers and merge them together.
+use 2 threads to sort an array of numbers and merge them together.
+
+## pc1.c
+* the producer puts letters `a` to `h` into buffer1.
+* the processor gets letters from buffer1.
+* the processor convert letters into upper forms then put them into buffer2.
+* the consumer gets letters from buffer2 and print them on the screen (emphasized).
+* each step is printed on the screen but the emphasized blue ones are required only.
+* use condition variables to collaborate threads.
+
+## pc2.c
+* things are same to the `pc1.c` above.
+* note that `pc2.c` uses semaphore to collaborate threads.
+
+## ring.c
+* create specified numbers of threads named `t1` to `tn`.
+* `t1` send an integer 1 to `t2`, and `t2` add 1 to the integer and send it to the next.
+* send the integer though all threads, and at last `tn` send `n` to the `t1`.
+* each thread receives the integer and print it on the screen the do the next step.
 

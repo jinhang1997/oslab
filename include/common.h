@@ -17,6 +17,13 @@
   } while (0); \
   fflush(stdout); \
   exit(0);
+  
+#define warning(format, ...) \
+  do { \
+    fprintf(stdout, "\033[1;33m[%s,%d,%s] " format "\033[0m\n", \
+      __FILE__, __LINE__, __func__, ## __VA_ARGS__); \
+  } while (0); \
+  fflush(stdout);
 
 #ifdef DEBUG
 
@@ -29,13 +36,6 @@
 #define log(format, ...) \
   do { \
     fprintf(stdout, "\033[1;34m[%s,%d,%s] " format "\033[0m\n", \
-      __FILE__, __LINE__, __func__, ## __VA_ARGS__); \
-  } while (0); \
-  fflush(stdout);
-  
-#define warning(format, ...) \
-  do { \
-    fprintf(stdout, "\033[1;33m[%s,%d,%s] " format "\033[0m\n", \
       __FILE__, __LINE__, __func__, ## __VA_ARGS__); \
   } while (0); \
   fflush(stdout);

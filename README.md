@@ -62,3 +62,6 @@ Use 2 threads to calculate PI according to Leibniz Series.
 ## pi2.c
 Use a specified number given by user of threads to calculate PI according to Leibniz Series.
 
+## sort.c
+Use 2 threads to sort an array of numbers and merge them together.
+

@@ -45,7 +45,7 @@ void *calcpart(void *arg)
 int main(int argc, char *argv[])
 {
   pthread_t worker_tid;
-  unsigned int mid = 1000000000;
+  unsigned int mid = 100000000;
   calcpart_arg_t main_part, ass_part;
   
   main_part.start_idx = 1;

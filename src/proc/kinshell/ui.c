@@ -1,6 +1,4 @@
 #include "kinshell.h"
-#include <readline/readline.h>
-#include <readline/history.h>
 
 char buf[512], cwd[128];
 cmd_t commands[16];

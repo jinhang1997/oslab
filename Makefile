@@ -8,7 +8,7 @@ INC_DIR := ./include
 CC := gcc
 LD := gcc
 CFLAGS := -Wall -I $(INC_DIR)
-LFLAGS := $(CFLAGS) -lreadline 
+LFLAGS := $(CFLAGS) -lreadline -lpthread
 
 # All files to be compiled
 SRCS = $(shell find $(SRC_DIR)/ -name "*.c")
@@ -32,10 +32,15 @@ OBJS_KINSHELL := $(SRCS_KINSHELL:$(SRC_DIR)/proc/kinshell/%.c=$(OBJ_DIR)/proc/ki
 OBJS_PROC := $(SRCS_PROC:$(SRC_DIR)/proc/%.c=$(OBJ_DIR)/proc/%.o)
 MULTIPROC := $(SRCS_PROCMAINS:$(SRC_DIR)/proc/%main.c=$(BUILD_DIR)/%main)
 
+# Lists of Multi-thread part
+SRCS_THREAD = $(shell find $(SRC_DIR)/thread -name "*.c")
+OBJS_THREAD := $(SRCS_THREAD:$(SRC_DIR)/thread/%.c=$(OBJ_DIR)/thread/%.o)
+THREAD := $(OBJS_THREAD:$(OBJ_DIR)/thread/%.o=$(BUILD_DIR)/%)
+
 # Don't remove *.o files automatically
 .SECONDARY: $(OBJS)
 
-all: $(FILEIO) $(MULTIPROC) 
+all: $(FILEIO) $(MULTIPROC) $(THREAD)
 
 # Compile each *.c file as *.o files
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c 
@@ -48,6 +53,12 @@ $(BUILD_DIR)/%: $(OBJ_DIR)/file/%.o
 	@echo + LD $@
 	@mkdir -p $(dir $@)
 	@$(LD) $(CFLAGS) -o $@ $^ 
+	
+# Link each *.o file in thread as executable files
+$(BUILD_DIR)/%: $(OBJ_DIR)/thread/%.o
+	@echo + LD $@
+	@mkdir -p $(dir $@)
+	@$(LD) -o $@ $^ $(LFLAGS)
 
 # Rule to build mysysmain
 $(BUILD_DIR)/mysysmain: $(OBJ_DIR)/proc/mysysmain.o
@@ -69,6 +80,8 @@ proc: $(MULTIPROC)
 
 kinshell: proc
 	@$(BUILD_DIR)/kinshellmain
+	
+thread: $(THREAD)
 
 lines:
 	@echo Total Code Lines: $(shell find ./ -name '*.[c|h]' | xargs cat | wc -l)

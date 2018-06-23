@@ -1,28 +1,48 @@
 #include "kinshell.h"
 
+#define MAX_ARGS 32
+
 int external_prog(int total, int depth)
 {
-  if (depth == total)
-  {
-    exit(EXIT_SUCCESS);
-  }
-  
+  int i;
   int fd[2];
   int pid;
   int status;
   int in_fd, out_fd;
   char buf[256];
-  char *argv[4];
+  char *argv[MAX_ARGS];
 #ifdef DEBUG
   FILE *log_child = NULL;
 #endif 
+  if (depth == total)
+  {
+    exit(EXIT_SUCCESS);
+  }
   
   cmd_t *cmd = &commands[total - depth - 1];
-  argv[0] = "/bin/sh";
+  /*argv[0] = "/bin/sh";
   argv[1] = "-c";
   sprintf(buf, "%s %s", cmd->command, cmd->argument);
   argv[2] = buf;
-  argv[3] = NULL;
+  argv[3] = NULL;*/
+  argv[0] = cmd->command;
+  strcpy(buf, cmd->argument);
+  for (i = 1; i < MAX_ARGS; i++)
+  {
+    if (i == 1)
+    {
+      argv[i] = strtok(buf, " ");
+    }
+    else
+    {
+      argv[i] = strtok(NULL, " ");
+    }
+    if (argv[i] == NULL)
+    {
+      break;
+    }
+  }
+  
   
   // pipe, fd[0] is reader and fd[1] is writer
   /*if (cmd->flag.piped & INFO_PIPED_OUT)
@@ -62,7 +82,7 @@ int external_prog(int total, int depth)
     }
     log2file(log_child, "/////logfile opened for child process at depth %d/%d", depth, total);
     log2file(log_child, "pipe: fd[0] = %d, fd[1] = %d", fd[0], fd[1]);
-    log2file(log_child, "child pid %d: [%s].", pid, argv[2]);
+    //log2file(log_child, "child pid %d: [%s].", pid, argv[2]);
     log2file(log_child, "child is setting pipe of stdout...");
 #endif
     if (depth != total - 1)
@@ -162,7 +182,8 @@ int external_prog(int total, int depth)
       close(out_fd);
     }
     //log("command about to be executed: [%s]", argv[2]);
-    execvp("/bin/sh", argv);
+    //execvp("/bin/sh", argv);
+    execvp(cmd->command, argv);
 #ifdef DEBUG
     //log("child exited. child pid: %d, stat: %d", pid, status);
 #endif

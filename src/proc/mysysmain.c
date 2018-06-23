@@ -1,17 +1,47 @@
+#define DEBUG
 #include "common.h"
+
+#define MAX_ARGS 32
 
 pid_t wait(int *status);
 
 int mysys(const char *command)
 {
   //printf("In function mysys: %s\n", command);
+  char buf[256];
   int pid, status;
-  char *argv[4];
+  char *argv[32];
+  //char *cmd;//, *arg;
+  int i;
   
-  argv[0] = "/bin/sh";
+  /*argv[0] = "/bin/sh";
   argv[1] = "-c";
   argv[2] = (char *)command;
-  argv[3] = NULL;
+  argv[3] = NULL;*/
+  strcpy(buf, command);
+  argv[0] = strtok(buf, " ");
+  //arg = cmd + strlen(cmd) + 1;
+  for (i = 1; i < MAX_ARGS; i++)
+  {
+    argv[i] = strtok(NULL, " ");
+    //log("[%s]", argv[i]);
+    if (argv[i] == NULL)
+    {
+      break;
+    }
+  }
+#ifdef DEBUG  
+  for (i = 0; i < MAX_ARGS; i++)
+  {
+    log("[%s]", argv[i]);
+    if (argv[i] == NULL)
+    {
+      break;
+    }
+  }
+#endif
+  //argv[2] = NULL;
+  //log("[%s] [%s]", cmd, arg);
   
   if ((pid = fork()) == -1)
   {
@@ -20,7 +50,7 @@ int mysys(const char *command)
   else if (pid == 0)
   {
     //printf("pid = %d\n", pid);
-    execv("/bin/sh", argv);
+    execvp(argv[0], argv);
     exit(EXIT_SUCCESS);
   }
   else
@@ -43,7 +73,7 @@ int main(int argc, char *argv[])
   printf("---------------\n");
   printf("Process exited with return value %d.\n", ret);
   printf("------------------------------\n");
-  ret = mysys("ls /");
+  ret = mysys("ls / /home");
   printf("---------------\n");
   printf("Process exited with return value %d.\n", ret);
   printf("------------------------------\n");
